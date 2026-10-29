@@ -14,6 +14,9 @@ import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from version import APP_NAME  # noqa: E402
+
 DLL = Path(r"C:\Program Files (x86)\VB\Voicemeeter\VoicemeeterRemote64.dll")
 
 # Exact names from check_audio_devices.py on this machine
@@ -139,7 +142,7 @@ def main() -> int:
             print(f"  Strip[{strip}].A1 = {a1}")
 
         # Profiles next to project + dist if present
-        targets = [ROOT, ROOT / "dist" / "LiveCaptions-v0.5.0"]
+        targets = [ROOT, ROOT / "dist" / APP_NAME]
         for folder in targets:
             if not folder.is_dir():
                 continue

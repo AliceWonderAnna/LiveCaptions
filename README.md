@@ -1,4 +1,4 @@
-# Live Captions — Windows 0.5.0
+# Live Captions — Windows 0.6.1
 
 Een kleine lokale Python-app voor instelbare ondertiteling over andere vensters.
 Geen permanent zwart vlak: standaard witte tekst met zwarte contour, 25% zwarte
@@ -74,7 +74,7 @@ Je hoeft geen API-key, betaalde dienst, CUDA of los FFmpeg-programma te installe
   ruis en zachte stemmen kunnen nog foutieve of ontbrekende tekst opleveren.
 - Een wachtrij van één job houdt de overlay bij de nieuwste audio. Als de CPU
   het niet bijhoudt, wordt ouder werk overgeslagen. Kies `tiny` voor snelheid;
-  `small` kost meer tijd en geheugen. CUDA/Intel-GPU wordt in 0.5.0 niet gebruikt.
+  `small` kost meer tijd en geheugen. CUDA/Intel-GPU wordt in 0.6.1 niet gebruikt.
   Twee instances ≈ 2× CPU; gebruik `tiny` als het achterloopt.
 - Globale sneltoetsen zijn gedeeld tussen instances; bij twee vensters kunnen
   ze botsen — gebruik tray/knoppen per profile.

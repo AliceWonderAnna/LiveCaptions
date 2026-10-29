@@ -13,6 +13,11 @@ if (-not $AppName) {
     throw "Could not read APP_NAME from version.py"
 }
 
+& $Python (Join-Path $Root "scripts\sync_version.py")
+if ($LASTEXITCODE -ne 0) {
+    throw "sync_version.py failed"
+}
+
 & $Python -m pip install -q pyinstaller
 & $Python -m PyInstaller --noconfirm --clean LiveCaptions.spec
 
