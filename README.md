@@ -87,12 +87,14 @@ Je hoeft geen API-key, betaalde dienst, CUDA of los FFmpeg-programma te installe
 
 Audio en herkende tekst blijven alleen tijdelijk in RAM. De app maakt geen
 audiofiles, transcriptbestanden of transcriptlogs. Er is geen opslagoptie voor
-transcripts. Alleen **settings.json** wordt naast de app opgeslagen; de algemene
-modelcache van Hugging Face wordt gebruikt voor modelbestanden. Installatie en
-eerste modeldownload vereisen internet. Met geïnstalleerde pakketten en een
-gecachet model gebeurt herkenning lokaal. Foutmeldingen tonen technische details,
-geen opzettelijk gelogde transcripties. Een lopend, onafgemaakt spraakblok wordt
-bij stoppen weggegooid.
+transcripts. Geïnstalleerde (frozen) builds slaan **settings.json** op in
+`%APPDATA%\LiveCaptions` (Roaming); bij ontwikkeling blijft settings naast de
+projectmap. Oude settings naast de exe worden eenmalig gemigreerd. De algemene
+modelcache van Hugging Face / `%LOCALAPPDATA%\LiveCaptions\models` wordt gebruikt
+voor modelbestanden. Installatie en eerste modeldownload vereisen internet. Met
+geïnstalleerde pakketten en een gecachet model gebeurt herkenning lokaal.
+Foutmeldingen tonen technische details, geen opzettelijk gelogde transcripties.
+Een lopend, onafgemaakt spraakblok wordt bij stoppen weggegooid.
 
 ## Problemen oplossen
 
@@ -107,7 +109,17 @@ bij stoppen weggegooid.
 - Mislukte installatie: gebruik 64-bit Python 3.12. Open een terminal in de map
   en voer `.venv\Scripts\python.exe -m pip install -r requirements.txt` uit.
 - Tekst zoek: gebruik Ctrl+Alt+S, Positie herstellen, Voorbeeld / slepen.
-- Beschadigde instellingen: hernoem settings.json; de app maakt nieuwe defaults.
+- Beschadigde instellingen: hernoem of verwijder
+  `%APPDATA%\LiveCaptions\settings.json` (of `settings-*.json`); de app maakt
+  nieuwe defaults. Bij ontwikkeling: settings naast de projectmap.
+
+## Distributie (Windows)
+
+`build.ps1` bouwt een onedir-map (`LiveCaptions-vX.Y.Z.exe` + `runtime\`) en
+daarna een upgradebare setup `dist\LiveCaptions-vX.Y.Z-Setup.exe` (Inno Setup).
+Nieuwe setups vervangen dezelfde per-user installatie; Roaming-settings blijven
+bewaard. Vereist: `.venv`, PyInstaller, en Inno Setup 6 (`winget install
+JRSoftware.InnoSetup`).
 
 ## Ontwikkeling en controles
 

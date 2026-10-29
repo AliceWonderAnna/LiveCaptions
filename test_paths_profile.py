@@ -5,14 +5,14 @@ import paths
 
 
 def test_settings_path_default():
-    assert paths.settings_path() == paths.app_dir() / 'settings.json'
-    assert paths.settings_path('') == paths.app_dir() / 'settings.json'
-    assert paths.settings_path(None) == paths.app_dir() / 'settings.json'
+    assert paths.settings_path() == paths.settings_dir() / 'settings.json'
+    assert paths.settings_path('') == paths.settings_dir() / 'settings.json'
+    assert paths.settings_path(None) == paths.settings_dir() / 'settings.json'
 
 
 def test_settings_path_with_profile():
-    assert paths.settings_path('vlc1') == paths.app_dir() / 'settings-vlc1.json'
-    assert paths.settings_path('vlc2') == paths.app_dir() / 'settings-vlc2.json'
+    assert paths.settings_path('vlc1') == paths.settings_dir() / 'settings-vlc1.json'
+    assert paths.settings_path('vlc2') == paths.settings_dir() / 'settings-vlc2.json'
 
 
 def test_normalize_profile_rejects_bad_names():

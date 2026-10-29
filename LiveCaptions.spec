@@ -72,6 +72,7 @@ exe = EXE(
     codesign_identity=None,
     entitlements_file=None,
     icon=str(root / "assets" / "livecaptions.ico"),
+    contents_directory="runtime",
 )
 
 coll = COLLECT(

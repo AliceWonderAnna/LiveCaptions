@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import os
 import re
+import shutil
 import sys
 from pathlib import Path
 
@@ -39,11 +40,47 @@ def normalize_profile(profile: str | None) -> str:
     return name
 
 
-def settings_path(profile: str | None = None) -> Path:
+def settings_dir() -> Path:
+    """Directory for settings.json files.
+
+    Frozen builds use %APPDATA%\\LiveCaptions (Roaming) so upgrades/uninstall
+    can replace binaries without wiping user preferences. Dev runs keep
+    settings next to the project root.
+    """
+    if is_frozen():
+        base = os.environ.get("APPDATA") or str(Path.home() / "AppData" / "Roaming")
+        path = Path(base) / "LiveCaptions"
+        path.mkdir(parents=True, exist_ok=True)
+        return path
+    return app_dir()
+
+
+def _settings_filename(profile: str | None = None) -> str:
     name = normalize_profile(profile) if profile else ''
     if name:
-        return app_dir() / f"settings-{name}.json"
-    return app_dir() / "settings.json"
+        return f"settings-{name}.json"
+    return "settings.json"
+
+
+def migrate_legacy_settings(profile: str | None = None) -> None:
+    """Copy settings from next-to-exe into Roaming once (frozen builds only)."""
+    if not is_frozen():
+        return
+    dest = settings_dir() / _settings_filename(profile)
+    if dest.is_file():
+        return
+    legacy = app_dir() / _settings_filename(profile)
+    if not legacy.is_file():
+        return
+    try:
+        shutil.copy2(legacy, dest)
+    except OSError:
+        pass
+
+
+def settings_path(profile: str | None = None) -> Path:
+    migrate_legacy_settings(profile)
+    return settings_dir() / _settings_filename(profile)
 
 
 def parse_profile_arg(argv: list[str] | None = None) -> str:
