@@ -218,3 +218,10 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# LiveCaptions: secrets, local settings, IDE, keep PyInstaller recipe
+Secret.py
+settings.json
+settings-*.json
+.cursor/
+!LiveCaptions.spec
